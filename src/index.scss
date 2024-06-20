@@ -1,0 +1,120 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2{
+  text-align: center;
+}
+
+label{
+  margin-right: 20px;
+  text-transform: capitalize;
+  input{
+    margin-left: 15px;
+  }
+}
+form{
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  width: 60%;
+  margin: 15px auto;
+  label{
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+  }
+}
+  
+button{
+  cursor: pointer;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.show{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 25px;
+  flex-grow: 1;
+  padding: 40px;
+  ul{
+    display: flex;
+    gap: 15px;
+    text-transform: capitalize;
+    li{
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      &>*{
+        font-size: 20px;
+        display: flex;
+        align-items: center;  
+      }
+    }
+  }
+}
+
+.tags{
+  width: 100%;
+  ul{
+    display: flex;
+    list-style-type: none;
+  }
+}
+
+.publ{
+  color: green;
+}
+.notPubl{
+  color: red;
+}
+
+.postCard{
+  border: 1px solid black;
+  position: relative;
+  padding: 15px;
+  border-radius: 10px;
+  width: calc(100%/5 - 15px);
+  .delete{
+    width:fit-content;
+    height: fit-content;
+    border: none;
+    background-color: white;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+  figure{
+    width: 40%;
+    aspect-ratio: 1/1;
+    img{
+      width: 100%;
+    }
+  }
+
+}
+
+.paginator{
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  user-select: none;
+  button{
+    width: 18px;
+    height: 18px;
+  }
+}
