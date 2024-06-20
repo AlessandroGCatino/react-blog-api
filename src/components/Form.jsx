@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { MdDeleteForever } from "react-icons/md";
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
-export default function(){
+export default function({ categories, tags, onCreate}){
 
-    const categories = ["Food", "Drink", "Travel", "Sports", "Other"];
-    const tags = [ "travel", "food", "fitness", "photography", "technology", "health", "fashion", "lifestyle", "nature", "art"];
+    // const categories = ["Food", "Drink", "Travel", "Sports", "Other"];
+    // const tags = [ "travel", "food", "fitness", "photography", "technology", "health", "fashion", "lifestyle", "nature", "art"];
 
     const [list, setList] = useState([]);
     const [published, setPublished] = useState(false);
@@ -14,12 +14,19 @@ export default function(){
         title: '',
         content: '',
         image: '',
-        category: [""],
+        categoryID: "",
         tags: [],
         published: false
     }
 
+    
     const [formData, setFormData] = useState(initialData);
+
+    useEffect(() => {
+        return(
+            console.log(formData)
+        )
+    }, [formData])
 
     const handleField = (name, value) => {
 
@@ -56,21 +63,21 @@ export default function(){
         <form onSubmit={handleSubmit} className="create">
             {Object.keys(initialData).map((name, index) => {
                 const value = initialData[name];
-                if (name === "category") {
+                if(name === 'categoryID'){
                     return (
-                        <label key={`formElement${index}`}>
-                            {name}:
+                        <label key={`formElement${index}`} >
+                            {name}
                             <select
-                            name={name}
-                            value={formData[name]}
-                            onChange={(e) => handleField(name, e.target.value)}>
-
-                                {categories.map((name, index) => (
-                                    <option value={name}>{name}</option>
-                                ))}
+                                value={formData[name]}
+                                onChange={(e) => handleField(name, Number(e.target.value))}
+                            >
+                                <option value="" disabled>Seleziona una categoria</option>
+                            {categories.map(c => (
+                                <option key={`categoryId${c.id}`} value={c.id}>{c.title}</option>
+                            ))}        
                             </select>
                         </label>
-                    );
+                    ) 
                 }
                 switch(typeof value){
                     case 'boolean':
@@ -90,21 +97,21 @@ export default function(){
                         <div key={`formElement${index}`} className="tags">
                             <p>Tags:</p>
                             <ul>
-                                {tags.map((name, index) => (
-                                    <li key={`ingredient${index}`}>
+                                {tags.map(({ id, title }, index) => (
+                                    <li key={`tag${index}`}>
                                         <label>
                                             <input
                                                 type="checkbox"
-                                                checked={formData.tags.includes(name)}
+                                                checked={formData.tags.includes(id)}
                                                 onChange={() => {
                                                     const curr = formData.tags;
-                                                    const newTags = curr.includes(name) ? 
-                                                    curr.filter(el => el !== name) : 
-                                                    [...curr, name];
+                                                    const newTags = curr.includes(id) ? 
+                                                    curr.filter(el => el !== id) : 
+                                                    [...curr, Number(id)];
                                                     handleField('tags', newTags);
                                                 }}
                                             />
-                                            {name}
+                                            {title}
                                         </label>
                                     </li>
                                 ))}

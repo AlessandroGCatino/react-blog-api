@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Form from './components/Form.jsx';
 import IndexPosts from './components/IndexPosts.jsx';
 
@@ -10,6 +10,25 @@ function App() {
 
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [response, setResponse] = useState(null);
+
+  const [tags, setTags] = useState([]);
+  const getIngredienti = async () => {
+      const url = `${apiUrl}/tags`;
+      const { data: array } = await axios.get(url);
+      setTags(array);
+  }
+
+  const [categories, setCategories] = useState([]);
+  const getCategorie = async () => {
+      const url = `${apiUrl}/categories`;
+      const { data: array } = await axios.get(url);
+      setCategories(array);
+  }
+
+  useEffect(() => {
+      getIngredienti();
+      getCategorie();
+  },[])
 
   const getPosts = async (page) => {
     setResponse(null);
@@ -24,7 +43,13 @@ function App() {
     <div style={{padding: '1rem'}}>
         <button onClick={() => setShowCreateForm(curr => !curr)}>{showCreateForm ? 'Annulla' : 'Crea Post'}</button>
     </div>
-    {showCreateForm && <Form />}
+    {showCreateForm && <Form 
+      categories={categories} 
+      tags={tags} 
+      onCreate={() => {
+          setShowCreateForm(false);
+          getPosts(1);
+      }}/>}
 
     <IndexPosts 
         response={response}
